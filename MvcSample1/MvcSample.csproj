@@ -122,6 +122,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Filters\LogActionAttribute.cs" />
@@ -247,6 +248,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Partial\_Menu.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

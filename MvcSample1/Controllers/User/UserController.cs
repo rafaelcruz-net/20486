@@ -13,7 +13,7 @@ using System.Web.Mvc;
 namespace MvcSample.Controllers
 {
     
-    public class UserController : Controller
+    public class UserController : Base.BaseController
     {
         IUserRepository userRepository;
 
