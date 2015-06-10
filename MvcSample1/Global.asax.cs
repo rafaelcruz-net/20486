@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 using WebMatrix.WebData;
 
 namespace MvcSample
@@ -27,7 +28,17 @@ namespace MvcSample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             if (!WebSecurity.Initialized)
+            {
                 WebSecurity.InitializeDatabaseConnection(CONNECTION_NAME, "User", "Id", "UserName", autoCreateTables: true);
+                
+                if (!Roles.RoleExists("Administrator"))
+                    Roles.CreateRole("Administrator");
+
+                if (!Roles.RoleExists("Default"))
+                    Roles.CreateRole("Default");
+
+
+            }
         }
     }
 }

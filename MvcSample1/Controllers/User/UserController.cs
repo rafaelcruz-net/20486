@@ -14,7 +14,7 @@ using WebMatrix.WebData;
 
 namespace MvcSample.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Administrator")]
     public class UserController : Base.BaseController
     {
         IUserRepository userRepository;
@@ -56,6 +56,8 @@ namespace MvcSample.Controllers
 
 
             this.userRepository.Update(model);
+            Roles.RemoveUserFromRoles(model.UserName, Roles.GetRolesForUser());
+            Roles.AddUserToRole(model.UserName, model.Perfil);
 
             ViewBag.Success = "Operacao Realizada com Sucesso";
 
@@ -86,7 +88,7 @@ namespace MvcSample.Controllers
         }
 
         [HttpPost]
-        public ActionResult New(User user)
+        public ActionResult New(User model)
         {
             if (!ModelState.IsValid)
                 return New();
@@ -94,7 +96,9 @@ namespace MvcSample.Controllers
             try
             {
 
-                this.userRepository.Insert(user);
+                this.userRepository.Insert(model);
+                Roles.RemoveUserFromRoles(model.UserName, Roles.GetRolesForUser());
+                Roles.AddUserToRole(model.UserName, model.Perfil);
                 ViewBag.Success = "Operacao Realizada com Sucesso";
                 IEnumerable<User> result  = this.userRepository.GetAll();
                 return View("Index", result);

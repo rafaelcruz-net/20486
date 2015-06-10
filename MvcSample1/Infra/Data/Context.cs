@@ -25,7 +25,9 @@ namespace MvcSample.Infra.Data
         public Context()
             : base(CONNECTION_NAME)
         {
-            Database.SetInitializer<Context>(new CreateDatabaseIfNotExists<Context>());
+            //Database.SetInitializer<Context>(new CreateDatabaseIfNotExists<Context>());
+
+            Database.SetInitializer<Context>(null);
 
             this.Database.Log = (message) => {
                 Trace.WriteLine(message);
