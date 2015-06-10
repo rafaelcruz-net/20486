@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebMatrix.WebData;
 
 namespace MvcSample
 {
@@ -14,6 +15,8 @@ namespace MvcSample
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private const String CONNECTION_NAME = "DefaultConnection";
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -22,6 +25,9 @@ namespace MvcSample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            if (!WebSecurity.Initialized)
+                WebSecurity.InitializeDatabaseConnection(CONNECTION_NAME, "User", "Id", "UserName", autoCreateTables: true);
         }
     }
 }

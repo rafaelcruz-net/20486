@@ -7,6 +7,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace MvcSample.Infra.Repository
 {
@@ -33,6 +35,25 @@ namespace MvcSample.Infra.Repository
             this.context.SaveChanges();
         }
 
+        public void Insert(User obj)
+        {
+            WebSecurity.CreateUserAndAccount(obj.UserName, obj.Password, new
+            {
+                Name = obj.Name,
+                Email = obj.Email,
+                CreationDate = obj.CreationDate,
+                Password = obj.Password
+            }, false);
+        }
+
+        public void Delete(User obj)
+        {
+            ((SimpleMembershipProvider)Membership.Provider).DeleteAccount(obj.UserName);
+            this.context.Users.Remove(obj);
+            this.ChangeState(obj, EntityState.Deleted);
+            this.context.SaveChanges();
+        }
+
         public void ChangeState(User user, EntityState state)
         {
             ((IObjectContextAdapter)this.context)
@@ -44,18 +65,6 @@ namespace MvcSample.Infra.Repository
 
 
 
-        public void Insert(User obj)
-        {
-            context.Users.Attach(obj);
-            this.ChangeState(obj, EntityState.Added);
-            this.context.SaveChanges();
-        }
-
-        public void Delete(User obj)
-        {
-            this.context.Users.Remove(obj);
-            this.ChangeState(obj, EntityState.Deleted);
-            this.context.SaveChanges();
-        }
+    
     }
 }

@@ -9,10 +9,12 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace MvcSample.Controllers
 {
-
+    [Authorize]
     public class UserController : Base.BaseController
     {
         IUserRepository userRepository;
@@ -27,7 +29,7 @@ namespace MvcSample.Controllers
             this.userRepository = repository;
         }
 
-
+            
         public ActionResult Index()
         {
             IEnumerable<User> result = userRepository.GetAll();
@@ -38,7 +40,7 @@ namespace MvcSample.Controllers
         public ActionResult Edit(int id)
         {
             User user = userRepository.GetById(id);
-
+            
             if (user == null)
                 return HttpNotFound();
 
@@ -57,20 +59,21 @@ namespace MvcSample.Controllers
 
             ViewBag.Success = "Operacao Realizada com Sucesso";
 
-            IEnumerable<User> result
+            IEnumerable<User> result 
                 = this.userRepository.GetAll();
 
             return View("Index", result);
         }
 
         [HttpDelete]
+
         public ActionResult Delete(int id)
         {
             User user = userRepository.GetById(id);
 
             if (user == null)
                 return HttpNotFound();
-
+            
             this.userRepository.Delete(user);
 
             return Json("OK");
@@ -88,11 +91,25 @@ namespace MvcSample.Controllers
             if (!ModelState.IsValid)
                 return New();
 
-            this.userRepository.Insert(user);
-            ViewBag.Success = "Operacao Realizada com Sucesso";
-            IEnumerable<User> result = this.userRepository.GetAll();
-            return View("Index", result);
+            try
+            {
+
+                this.userRepository.Insert(user);
+                ViewBag.Success = "Operacao Realizada com Sucesso";
+                IEnumerable<User> result  = this.userRepository.GetAll();
+                return View("Index", result);
+              
+            }
+            catch (MembershipCreateUserException e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+
+            return New();
+
         }
+
+       
 
 
 

@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using WebMatrix.WebData;
 
 namespace MvcSample.Infra.Data
 {
@@ -29,6 +30,8 @@ namespace MvcSample.Infra.Data
             this.Database.Log = (message) => {
                 Trace.WriteLine(message);
             };
+
+         
             
 
         }
