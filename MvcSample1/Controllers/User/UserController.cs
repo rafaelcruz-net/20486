@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace MvcSample.Controllers
 {
-    
+
     public class UserController : Base.BaseController
     {
         IUserRepository userRepository;
@@ -27,7 +27,7 @@ namespace MvcSample.Controllers
             this.userRepository = repository;
         }
 
-            
+
         public ActionResult Index()
         {
             IEnumerable<User> result = userRepository.GetAll();
@@ -38,7 +38,7 @@ namespace MvcSample.Controllers
         public ActionResult Edit(int id)
         {
             User user = userRepository.GetById(id);
-            
+
             if (user == null)
                 return HttpNotFound();
 
@@ -57,9 +57,40 @@ namespace MvcSample.Controllers
 
             ViewBag.Success = "Operacao Realizada com Sucesso";
 
-            IEnumerable<User> result 
+            IEnumerable<User> result
                 = this.userRepository.GetAll();
 
+            return View("Index", result);
+        }
+
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            User user = userRepository.GetById(id);
+
+            if (user == null)
+                return HttpNotFound();
+
+            this.userRepository.Delete(user);
+
+            return Json("OK");
+
+        }
+
+        public ActionResult New()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult New(User user)
+        {
+            if (!ModelState.IsValid)
+                return New();
+
+            this.userRepository.Insert(user);
+            ViewBag.Success = "Operacao Realizada com Sucesso";
+            IEnumerable<User> result = this.userRepository.GetAll();
             return View("Index", result);
         }
 

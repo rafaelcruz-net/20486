@@ -46,12 +46,16 @@ namespace MvcSample.Infra.Repository
 
         public void Insert(User obj)
         {
-            throw new NotImplementedException();
+            context.Users.Attach(obj);
+            this.ChangeState(obj, EntityState.Added);
+            this.context.SaveChanges();
         }
 
         public void Delete(User obj)
         {
-            throw new NotImplementedException();
+            this.context.Users.Remove(obj);
+            this.ChangeState(obj, EntityState.Deleted);
+            this.context.SaveChanges();
         }
     }
 }
