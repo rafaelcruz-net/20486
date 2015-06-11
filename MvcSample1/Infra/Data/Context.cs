@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using WebMatrix.WebData;
 
 namespace MvcSample.Infra.Data
 {
@@ -24,11 +25,15 @@ namespace MvcSample.Infra.Data
         public Context()
             : base(CONNECTION_NAME)
         {
-            Database.SetInitializer<Context>(new CreateDatabaseIfNotExists<Context>());
+            //Database.SetInitializer<Context>(new CreateDatabaseIfNotExists<Context>());
+
+            Database.SetInitializer<Context>(null);
 
             this.Database.Log = (message) => {
                 Trace.WriteLine(message);
             };
+
+         
             
 
         }

@@ -47,6 +47,13 @@ namespace MvcSample.Models
             get;
             set;
         }
+        
+        [Required(ErrorMessage = "Campo Perfil de Acesso e Obrigatorio")]
+        public String Perfil
+        {
+            get;
+            set;
+        }
 
 
         public DateTime CreationDate
@@ -54,5 +61,7 @@ namespace MvcSample.Models
             get;
             set;
         }
+
+
     }
 }

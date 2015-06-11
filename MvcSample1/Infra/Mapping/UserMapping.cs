@@ -42,6 +42,10 @@ namespace MvcSample.Infra.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
+            this.Ignore(x => x.Perfil);
+
+
+
         }
 
     }
